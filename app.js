@@ -420,8 +420,9 @@ app.post("/request/send",isLoggedIn, async (req, res) => {
             quantity: crop.quantity,
             price: crop.price
         }));
-        if (!inventorySent) {
-             req.flash("error", "No inventory found.");
+        console.log(inventorySent);
+        if (!inventorysent || inventorysent.inventory.length === 0) {
+            req.flash("error", "No inventory found.");
             res.redirect("/listings/Orders");   
         }
         console.log(inventorySent);
