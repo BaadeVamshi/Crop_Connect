@@ -1,0 +1,87 @@
+
+<nav class="navbar navbar-expand-lg navbar-light bg-success sticky-top px-3 my-4">
+  <div class="container-fluid">
+    <!-- Logo -->
+    <a class="navbar-brand d-flex align-items-center" href="#">
+      <img
+        src="/images/image.png"
+        alt="Farmer Logo"
+        width="40"
+        height="40"
+        class="d-inline-block align-text-top rounded-circle me-2"
+      />
+      <span class="text-white fw-bold">Farmer Dashboard</span>
+    </a>
+
+    <!-- Sidebar toggle button visible only on small screens -->
+    <button 
+      class="btn btn-success d-lg-none me-2" 
+      type="button" 
+      data-bs-toggle="offcanvas" 
+      data-bs-target="#mobileSidebar" 
+      aria-controls="mobileSidebar"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <!-- Navbar links visible on large screens -->
+    <div class="collapse navbar-collapse justify-content-end d-none d-lg-flex" id="navbarNav">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="btn btn-outline-light me-2" href="/listings/farmers">Inventory</a>
+        </li>
+        <li class="nav-item">
+          <a class="btn btn-outline-light me-2" href="/listings/addInventory">Add Inventory</a>
+        </li>
+        <li class="nav-item">
+          <a class="btn btn-outline-light me-2" href="/listings/Orders">Order</a>
+        </li>
+        <li class="nav-item">
+          <a class="btn btn-outline-light me-2" href="/dashboard/farmer">Total Sales</a>
+        </li>
+        <li class="nav-item">
+          <a class="btn btn-outline-light" href="/logoutfarmer">Logout</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- Offcanvas Sidebar for mobile -->
+<div 
+  class="offcanvas offcanvas-start" 
+  tabindex="-1" 
+  id="mobileSidebar" 
+  aria-labelledby="mobileSidebarLabel"
+  style="width: 250px; background-color: #2e845f;"
+>
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title fw-bold" id="mobileSidebarLabel">Farmer Dashboard</h5>
+    <button 
+      type="button" 
+      class="btn-close text-reset" 
+      data-bs-dismiss="offcanvas" 
+      aria-label="Close"
+    ></button>
+  </div>
+  <div class="offcanvas-body px-0">
+    <ul class="nav flex-column">
+      <li class="nav-item">
+        <a class="nav-link text-white px-3 py-3 fw-bold" href="/listings/farmers" style="font-size: 1.2rem;">Inventory</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link text-white px-3 py-3 fw-bold" href="/listings/addInventory" style="font-size: 1.2rem;">Add Inventory</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link text-white px-3 py-3 fw-bold" href="/listings/Orders" style="font-size: 1.2rem;">Order</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link text-white px-3 py-3 fw-bold" href="/dashboard/farmer" style="font-size: 1.2rem;">Total Sales</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link text-white px-3 py-3 fw-bold" href="/logoutfarmer" style="font-size: 1.2rem;">Logout</a>
+      </li>
+    </ul>
+  </div>
+</div>

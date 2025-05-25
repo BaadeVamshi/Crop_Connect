@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Buyer Dashboard</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: url('your-light-green-background.jpg') no-repeat center center fixed;
+      background-size: cover;
+      padding-top: 80px;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+   
+    .navbar {
+        position: fixed;
+        top: 0.5rem;
+        left: 0.5rem;
+        right: 0.5rem;
+        width: auto;
+        background: rgba(245, 245, 245, 0.5); /* Light grey with transparency */
+        backdrop-filter: blur(14px);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+        color: #2e5283;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem 2rem;
+        border-radius: 12px;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08), 
+                    0 12px 30px rgba(0, 0, 0, 0.05), 
+                    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+        z-index: 1000;
+    }
+
+    
+
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: #2d4f3a;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 1.5rem;
+      list-style: none;
+    }
+
+    .nav-links li a {
+      color: #2d4f3a;
+      font-weight: 500;
+      padding: 0.4rem 0.8rem;
+      border-radius: 6px;
+      transition: background 0.3s ease, color 0.3s ease;
+    }
+
+    .nav-links li a:hover {
+      background: rgba(255, 255, 255, 0.3);
+      color: #1e3d29;
+    }
+
+    /* ===== Sidebar (Mobile) ===== */
+    .sidebar {
+      position: fixed;
+      top: 0;
+      left: -260px;
+      height: 100%;
+      width: 260px;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(8px);
+      padding: 2rem 1.5rem;
+      box-shadow: 4px 0 20px rgba(0, 0, 0, 0.1);
+      transition: left 0.3s ease;
+      border-radius: 0 12px 12px 0;
+      z-index: 999;
+    }
+
+    .sidebar.open {
+      left: 0;
+    }
+
+    .sidebar .close-sidebar {
+      text-align: right;
+      font-size: 1.5rem;
+      color: #2d4f3a;
+      cursor: pointer;
+      margin-bottom: 1.5rem;
+    }
+
+    .sidebar ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .sidebar ul li {
+      margin: 1.2rem 0;
+    }
+
+    .sidebar ul li a {
+      color: #2d4f3a;
+      font-size: 1.1rem;
+      font-weight: 500;
+      display: block;
+      padding: 0.4rem 0.8rem;
+      border-radius: 6px;
+      transition: background 0.3s ease;
+    }
+
+    .sidebar ul li a:hover {
+      background: rgba(0, 0, 0, 0.05);
+    }
+
+    /* Hamburger icon (mobile) */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+    }
+
+    .hamburger span {
+      height: 3px;
+      width: 24px;
+      background: #2d4f3a;
+      border-radius: 3px;
+    }
+
+    /* ===== Responsive ===== */
+    @media (max-width: 768px) {
+      .nav-links {
+        display: none;
+      }
+
+      .hamburger {
+        display: flex;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Sidebar -->
+  <div id="sidebar" class="sidebar">
+    <div class="close-sidebar" onclick="toggleSidebar()">×</div>
+    <ul>
+      <li><a href="/listings/buyer">🏠 Requests</a></li>
+      <li><a href="/dashboard/buyer">📦 Orders</a></li>
+      <li><a href="/logoutbuyer">🚪 Logout</a></li>
+    </ul>
+  </div>
+
+  <!-- Top Navbar -->
+  <nav class="navbar">
+    <a href="/listings/buyer"> <span class="logo">🛒 Buyer Dashboard</span></a>
+    <ul class="nav-links">
+      <li><a href="/listings/buyer">🏠 Requests</a></li>
+      <li><a href="/dashboard/buyer">📦 Orders</a></li>
+      <li><a href="/logoutbuyer">🚪 Logout</a></li>
+    </ul>
+    <div class="hamburger" onclick="toggleSidebar()">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+  </nav>
+
+  <!-- Dashboard Content Placeholder -->
+  <div style="padding: 2rem; color: #2d4f3a;">
+    <!-- Buyer content will appear here -->
+  </div>
+
+  <!-- Sidebar Toggle Script -->
+  <script>
+    function toggleSidebar() {
+      const sidebar = document.getElementById('sidebar');
+      sidebar.classList.toggle('open');
+    }
+  </script>
+
+</body>
+</html>

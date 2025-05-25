@@ -1,0 +1,204 @@
+
+<style>
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        margin: 2rem;
+        background-color: #f9f9f9;
+        color: #333;
+    }
+
+    h1, h2 {
+        text-align: center;
+        color: #2c3e50;
+    }
+
+    table {
+        width: 80%;
+        margin: 2rem auto;
+        border-collapse: collapse;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        animation: fadeIn 1s ease-in-out;
+        background-color: #fff;
+        border-radius: 10px;
+        overflow: hidden;
+    }
+
+    th, td {
+        padding: 1rem;
+        text-align: center;
+        border-bottom: 1px solid #ddd;
+    }
+
+    th {
+        background-color: #2ecc71;
+        color: white;
+        font-size: 1.1rem;
+    }
+
+    tr:hover {
+        background-color: #f1f1f1;
+        transition: background-color 0.3s ease;
+    }
+
+    td {
+        font-size: 1rem;
+    }
+
+    p {
+        text-align: center;
+        color: #999;
+        font-style: italic;
+        margin-top: 1rem;
+        animation: fadeIn 0.8s ease;
+    }
+   button.secondary {
+    display: block;
+    margin: 1rem auto;
+    padding: 0.75rem 1.5rem;
+    background-color: #3498db;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+a.secondary {
+    display: block;
+    text-align: center;
+    margin: 1rem auto;
+    padding: 0.75rem 1.5rem;
+    background-color: #3498db;
+    color: white;
+    border-radius: 8px;
+    font-size: 1rem;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+a.secondary:hover {
+    background-color: #2980b9;
+}
+
+button a{
+    text-decoration: none;
+    color: white;
+}
+
+button.secondary:hover {
+    background-color: #2980b9;
+}
+
+    /* Fade-in animation */
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+</style>
+
+<% layout("/layout/boilerplate") %>
+<body>
+    <h1>It is <%=currentUser.username%>'s dashboard</h1>
+
+    <!-- Available Inventory -->
+    <h2>Available Inventory</h2>
+    <% if (available && available.inventory && available.inventory.length > 0) { %>
+        <table border="1">
+            <tr>
+                <th>Crop</th>
+                <th>Quantity</th>
+                <th>Price</th>
+            </tr>
+            <% available.inventory.forEach(item => { %>
+                <tr>
+                    <td><%= item.crop %></td>
+                    <td><%= item.quantity %> kgs</td>
+                    <td><%= item.price %> /kg</td>
+                </tr>
+            <% }) %>
+           <% if (available.inventory.length > 0) { %>
+                <button class="secondary" <% if (hasPending) { %> disabled style="background-color: grey; cursor: not-allowed;" <% } %>>
+                    <% if (!hasPending) { %>
+                        <a href="/listings/update">Update Inventory</a>
+                    <% } else { %>
+                        Update Inventory (Pending Request)
+                    <% } %>
+                </button>
+            <% } %>
+
+        </table>
+    <% } else { %>
+        <p>No available inventory.</p>
+        <table border="1">
+            <tr>
+                <th>Crop</th>
+                <th>Quantity</th>
+                <th>Price</th>
+            </tr>
+            <tr>
+                <td>Wheat</td>
+                <td>0</td>
+                <td>0</td>
+            </tr>
+            <tr>
+                <td>Corn</td>
+                <td>0</td>
+                <td>0</td>
+            </tr>
+            <tr>
+                <td>Paddy</td>
+                <td>0</td>
+                <td>0</td>
+            </tr>
+        </table>
+        
+    <% } %>
+
+    <!-- Sold Inventory -->
+    <h2>Sold Inventory</h2>
+    <% if (sold && sold.inventory && sold.inventory.length > 0) { %>
+        <table border="1">
+            <tr>
+                <th>Crop</th>
+                <th>Quantity</th>
+                <th>Price</th>
+            </tr>
+            <% sold.inventory.forEach(item => { %>
+                <tr>
+                    <td><%= item.crop %></td>
+                    <td><%= item.quantity %> kgs</td>
+                    <td><%= item.price %> /kg</td>
+                </tr>
+            <% }) %>
+        </table>
+    <% } else { %>
+        <p>No sold inventory.</p>
+        <table border="1">
+            <tr>
+                <th>Crop</th>
+                <th>Quantity</th>
+                <th>Price</th>
+            </tr>
+            <tr>
+                <td>Wheat</td>
+                <td>0</td>
+                <td>0</td>
+            </tr>
+            <tr>
+                <td>Corn</td>
+                <td>0</td>
+                <td>0</td>
+            </tr>
+            <tr>
+                <td>Paddy</td>
+                <td>0</td>
+                <td>0</td>
+            </tr>
+        </table>
+    <% } %>
+</body>

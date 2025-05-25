@@ -1,0 +1,70 @@
+<% layout("/layout/boilerplate") %>
+<style>
+    
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background: #f4f7f8;
+        margin: 0;
+        padding: 0;
+    }
+    
+    .form-container {
+        max-width: 400px;
+        margin: 80px auto 0 auto; /* Pushes form below navbar */
+        padding: 30px;
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+    
+    form h2 {
+        text-align: center;
+        margin-bottom: 20px;
+        color: #333;
+    }
+    
+    form input {
+        width: 100%;
+        padding: 12px 15px;
+        margin: 10px 0;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        font-size: 16px;
+        transition: border-color 0.3s ease;
+    }
+    
+    form input:focus {
+        outline: none;
+        border-color: #4CAF50;
+    }
+    
+    form button {
+        width: 100%;
+        padding: 12px;
+        background-color: #4CAF50;
+        color: white;
+        font-size: 16px;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+    
+    form button:hover {
+        background-color: #45a049;
+    }
+    
+</style>
+
+
+<body>
+    <div class="form-container">
+        <form method="post" action="/listings/addInventory">
+            <h2>Add Inventory</h2>
+            <input name="crop" placeholder="Enter type of crop" type="text" required>
+            <input name="quantity" placeholder="Enter Quantity in Kgs" type="number" required>
+            <input name="price" placeholder="Enter Price per Kg in Rs" type="number" required>
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+</body>

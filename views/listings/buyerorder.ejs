@@ -1,0 +1,140 @@
+<% if(success && success.length){ %>
+  <div class="alert alert-success alert-dismissible fade show col-6 offset-3 mt-2" role="alert">
+    <%= success %>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+<% } %>
+
+<% if(error && error.length){ %>
+  <div class="alert alert-danger alert-dismissible fade show col-6 offset-3 mt-2" role="alert">
+    <%= error %>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+<% } %>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Buyer Dashboard - Sales Ordered</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 20px;
+    }
+
+    h1 {
+      text-align: center;
+      color: green;
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .order-container {
+       max-width: 800px;
+        margin: 20px auto;
+        margin-top: 3.5rem;
+      background: linear-gradient(135deg, #e6f2e6, #c7dfca);
+      border-radius: 12px;
+      padding: 25px 30px;
+      box-shadow: 0 6px 12px rgba(46, 132, 95, 0.25);
+      animation: fadeInUp 0.6s ease forwards;
+    }
+
+    .order-container:hover {
+      box-shadow: 0 10px 20px rgba(46, 132, 95, 0.4);
+    }
+
+    .order-container h3 {
+      color: #2e5283;
+      font-weight: 700;
+      margin-bottom: 15px;
+      font-size: 1.25rem;
+      letter-spacing: 0.03em;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #2c3e50;
+      table-layout: fixed;
+    }
+
+    th, td {
+      padding: 12px 15px;
+      text-align: left;
+      border-bottom: 2px solid #a8d5ba;
+      word-wrap: break-word;
+    }
+
+    th {
+      background-color: #2e5283;
+      color: white;
+      font-weight: 700;
+    }
+
+    tr:hover td {
+      background-color: #d0e8d6;
+      color: #2e7d32;
+      cursor: default;
+      font-weight: 700;
+      transition: background-color 0.3s ease;
+    }
+
+    .no-orders {
+      text-align: center;
+      color: #888;
+      margin-top: 50px;
+    }
+  </style>
+</head>
+<% layout("/layout/boilerplatebuyer") %>
+<body>
+  <h1> Purchase History </h1>
+
+  <% if (orders.length === 0) { %>
+    <p class="no-orders">No accepted orders yet.</p>
+  <% } else { %>
+    <% orders.forEach(order => { %>
+      <div class="order-container">
+        <h3>Farmer: <%= order.farmer.username %></h3>
+        <h3>Buyer: <%= buyername %></h3>
+        <h3>Time: <%= order.createdAt %></h3>
+
+        <table>
+          <thead>
+            <tr>
+              <th>Crop</th>
+              <th>Quantity (kgs)</th>
+              <th>Price (₹/kg)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% order.inventoryaccepted.forEach(item => { %>
+              <tr>
+                <td><%= item.crop %></td>
+                <td><%= item.quantity %> kgs</td>
+                <td><%= item.price %> /kg</td>
+              </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      </div>
+    <% }) %>
+  <% } %>
+</body>
+</html>

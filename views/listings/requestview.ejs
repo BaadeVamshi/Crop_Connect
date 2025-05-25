@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Request Details</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f0f4f3;
+            padding: 2rem;
+        }
+
+        .request-container {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            max-width: 800px;
+            margin: auto;
+        }
+
+        h2 {
+            color: #2f3542;
+            margin-top: 2rem;
+        }
+
+        .inventory-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+
+        .inventory-table th, .inventory-table td {
+            border: 1px solid #dcdde1;
+            padding: 0.75rem;
+            text-align: left;
+        }
+
+        .inventory-table th {
+            background-color: #70a1ff;
+            color: white;
+        }
+
+        .inventory-table tr:nth-child(even) {
+            background-color: #f1f2f6;
+        }
+
+        input[type="number"] {
+            width: 100px;
+            padding: 0.4rem;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        button[type="submit"] {
+            margin-top: 1rem;
+            padding: 0.6rem 1.2rem;
+            background-color: #2ed573;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #26c281;
+        }
+        input[type="text"],
+        input[type="number"] {
+            width: 100px;
+            padding: 0.4rem;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #f8f9fa;
+            font-size: 0.95rem;
+        }
+
+        input[readonly] {
+            background-color: #e9ecef;
+            color: #495057;
+            cursor: not-allowed;
+        }
+        .button {
+            display: inline-block;
+            padding: 0.6rem 1.2rem;
+            background-color: #1e90ff; /* Dodger Blue */
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: 500;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.2s ease-in-out;
+            margin-top: 1.5rem;
+        }
+
+        .button:hover {
+            background-color: #1c86ee; /* Slightly darker blue */
+        }
+
+
+    </style>
+</head>
+<% layout("/layout/boilerplatebuyer") %>
+<body>
+
+<div class="request-container">
+    <h2>🧑‍🌾 Farmer Details</h2>
+    <p style="margin-top: 0.3rem;"><strong>Name:</strong> <%= request.farmer.username %></p>
+    <p style="margin-top: 0.3rem;"><strong>Location:</strong> <%= request.farmer.location %></p>
+    <p style="margin-top: 0.3rem;"><strong>createdAt:</strong> <%= request.createdAt %></p>
+
+    <a href="/request/map/<%= request._id %>" class="button">View Location</a>
+    <h2>📦 Inventory</h2>
+    <% if (request.inventorySent && request.inventorySent.length > 0) { %>
+        <table class="inventory-table">
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Quantity</th>
+                    <th>Price (per unit)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% request.inventorySent.forEach(item => { %>
+                    <tr>
+                        <td><%= item.crop %></td>
+                        <td><%= item.quantity %></td>
+                        <td>₹<%= item.price %> /kg</td>
+                    </tr>
+                <% }) %>
+            </tbody>
+        </table>
+
+        <h2>✅ Choose Quantity to Accept</h2>
+        <form action="/accept-inventory/<%= request._id %>" method="POST">
+            <table class="inventory-table">
+                <thead>
+                    <tr>
+                        <th>Product</th>
+                        <th>Choose Quantity</th>
+                        <th>Price (per unit)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% request.inventorySent.forEach((item) => { %>
+                        <tr>
+                            <td><input type="text" value="<%= item.crop %>" name="crop[]" readonly></td>
+                            <td>
+                                <input 
+                                    type="number" 
+                                    name="quantity[]" 
+                                    min="0" 
+                                    max="<%= item.quantity %>" 
+                                    placeholder="Max: <%= item.quantity %>"
+                                    required
+                                >
+                            </td>
+                            <td>₹<input type="text" value="<%= item.price %>" name="price[]" readonly>/kg</td>
+                        </tr>
+                    <% }) %>
+                </tbody>
+            </table>
+            <button type="submit">Accept</button>
+        </form>
+    <% } else { %>
+        <p>No inventory data available.</p>
+    <% } %>
+</div>
+
+</body>
+</html>

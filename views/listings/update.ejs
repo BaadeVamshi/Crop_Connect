@@ -1,0 +1,131 @@
+<% layout("/layout/boilerplate") %>
+
+<style>
+ .form-heading {
+    text-align: center;
+    font-size: 1.8rem;
+    color: #2c3e50;
+    margin-top: 2rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .form-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin: 1rem auto;
+    padding: 1rem;
+    background-color: #f8f8f8;
+    border-radius: 10px;
+    width: 90%;
+    max-width: 800px;
+    align-items: center;
+  }
+
+  .form-row input {
+    flex: 1 1 30%;
+    padding: 0.7rem 1rem;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+  }
+  .form-row .input {
+  flex: 1 1 30%;
+  padding: 0.7rem 1rem;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background-color: white;
+  box-sizing: border-box;
+  min-height: 42px;
+  margin-top: 1rem;
+  display: flex;
+  align-items: center;
+}
+
+
+  .form-row button {
+    padding: 0.6rem 1.2rem;
+    background-color: #27ae60;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+  }
+
+  .form-row button:hover {
+    background-color: #219150;
+  }
+
+  .form-header {
+    display: flex;
+    justify-content: space-between;
+    width: 90%;
+    max-width: 800px;
+    margin: 0 auto 1rem auto;
+    font-weight: bold;
+    color: #2c3e50;
+    text-align: center;
+  }
+
+  .form-header span {
+    flex: 1 1 30%;
+  }
+
+  @media (max-width: 600px) {
+    .form-row, .form-header {
+      flex-direction: column;
+      text-align: left;
+    }
+
+   .form-row input,
+  .form-row .input {
+    flex: 1 1 100%;
+  }
+
+    
+  }
+  .form-row a {
+  padding: 0.6rem 1.2rem;
+  background-color: #e74c3c;
+  color: white;
+  text-decoration: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  margin-left: 0.5rem;
+  transition: background-color 0.3s ease;
+}
+
+.form-row a:hover {
+  background-color: #c0392b;
+}
+
+</style>
+<% layout("/layout/boilerplate") %>
+
+
+<% if (available.inventory.length > 0) { %>
+  <h2 class="form-heading">Update Your Inventory Details</h2>
+
+  <div class="form-header">
+    <span>Crop</span>
+    <span>Quantity (kgs)</span>
+    <span>Price (/kg)</span>
+  </div>
+
+  <% available.inventory.forEach(item => { %>
+    <form method="POST" action="/listings/update/<%=item.crop%>?_method=PATCH">
+      <div class="form-row">
+        <!-- <input type="text" name="crop" value="<%= item.crop %>"> -->
+         <p class="input"><%=item.crop%></p>
+        <input type="number" name="quantity" value="<%= item.quantity %>">
+        <input type="number" name="price" value="<%= item.price %>">
+        <button type="submit">Update</button>
+        <a href="/listings/delete/<%=item.crop%>">Delete</a>
+      </div>
+    </form>
+  <% }) %>
+<% } %>
+
+

@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Mapbox Demo</title>
+
+  <link href="https://api.mapbox.com/mapbox-gl-js/v3.10.0/mapbox-gl.css" rel="stylesheet" />
+  <script src="https://api.mapbox.com/mapbox-gl-js/v3.10.0/mapbox-gl.js"></script>
+
+  <style>
+      .delete-button {
+        margin-top: 2rem;
+        margin-left: 2rem;
+        display: inline-block;
+        background-color: #e53935; /* red tone */
+        color: white;
+        padding: 12px 20px;
+        font-size: 16px;
+        text-decoration: none;
+        border: none;
+        border-radius: 8px;
+        transition: background-color 0.3s ease, transform 0.2s ease;
+        cursor: pointer;
+  }
+
+  .delete-button:hover {
+    background-color: #c62828;
+    transform: scale(1.05);
+  }
+
+  .delete-button:active {
+    transform: scale(0.98);
+  }
+
+    html,
+    body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f4f4f4;
+    }
+
+    .heading {
+      text-align: center;
+      padding: 1.5rem;
+      margin: 0;
+      font-size: 2.5rem;
+      background: linear-gradient(to right, #1e1e2f, #2f3542);
+      color: white;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      letter-spacing: 1px;
+      font-weight: 600;
+    }
+
+    .heading .highlight {
+      color: #ff4757;
+      font-weight: bold;
+    }
+
+
+    .map-container {
+      padding: 2rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    #map {
+      border: 4px solid #1e1e2f;
+      border-radius: 12px;
+      height: 85vh;
+      width: 90vw;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    }
+
+    .mapboxgl-popup {
+      max-width: 200px;
+      font-size: 14px;
+    }
+
+    .marker:hover {
+      cursor: pointer;
+    }
+
+    .farmer-marker:hover {
+      cursor: pointer;
+      transform: scale(1.1);
+      transition: transform 0.2s ease;
+    }
+  </style>
+
+  <% layout("/layout/boilerplate") %>
+</head>
+
+<body>
+  <h1 class="heading">📍 See Who’s <span class="highlight">Buying</span> and Where</h1>
+  <a href="/requests/deleteall" class="delete-button">
+    Delete Current Pending Requests from Farmer
+  </a>
+  <div class="map-container">
+    <div id="map"></div>
+  </div>
+
+  <script>
+    const mapToken = "<%= process.env.MAP_TOKEN %>";
+    mapboxgl.accessToken = mapToken;
+
+    const buyers = <%- JSON.stringify(buyerdata) %>;
+    const farmerCoordinate = <%- JSON.stringify(coordinate) %>;
+
+    // Create a custom HTML element for the farmer marker
+    const farmerMarkerEl = document.createElement('div');
+    farmerMarkerEl.className = 'farmer-marker';
+    farmerMarkerEl.style.backgroundImage = "url('/images/farmer.jpeg')";
+    farmerMarkerEl.style.width = '40px';
+    farmerMarkerEl.style.height = '40px';
+    farmerMarkerEl.style.backgroundSize = 'cover';
+    farmerMarkerEl.style.borderRadius = '50%';
+    farmerMarkerEl.style.border = '2px solid #1e1e2f';
+    farmerMarkerEl.title = "Farmer";
+
+    const map = new mapboxgl.Map({
+      container: 'map',
+      style: "mapbox://styles/mapbox/streets-v12",
+      center: farmerCoordinate.coordinates,
+      zoom: 9
+    });
+    // 🔵 Add Farmer Marker
+    const farmerPopup = new mapboxgl.Popup({ offset: 25 }).setHTML(`
+    <h4>🧑‍🌾 You (Farmer)</h4>
+    <p>Your Location</p>
+  `);
+
+    new mapboxgl.Marker(farmerMarkerEl)
+      .setLngLat(farmerCoordinate.coordinates)
+      .setPopup(farmerPopup)
+      .addTo(map);
+
+
+    let offset = 0;
+
+    buyers.forEach(buyer => {
+      if (buyer.geometry && buyer.geometry.coordinates) {
+        const coords = [...buyer.geometry.coordinates];
+        coords[1] += offset; // slight vertical offset
+        offset += 0.0002;
+
+        const popup = new mapboxgl.Popup({ offset: 25 }).setHTML(`
+          <h4>${buyer.username}</h4>
+          <p>${buyer.location}</p>
+          <button class="request-buy-btn" data-buyerid="${buyer._id}">Request to Buy</button>
+        `);
+
+        const marker = new mapboxgl.Marker({
+          color: "red"
+        })
+          .setLngLat(coords)
+          .setPopup(popup)
+          .addTo(map);
+
+        // Zoom into marker when clicked
+        marker.getElement().addEventListener('click', () => {
+          map.flyTo({
+            center: coords,
+            zoom: 10,
+            speed: 0.7,
+            curve: 1.3,
+            essential: true
+          });
+        });
+      }
+    });
+   document.addEventListener("click", function (e) {
+      if (e.target.classList.contains("request-buy-btn")) {
+        const buyerId = e.target.getAttribute("data-buyerid");
+        const form = document.getElementById("request-buy-form");
+        const input = document.getElementById("buyer-id-input");
+
+        input.value = buyerId;
+        form.submit();
+      }
+    });
+  </script>
+  <form id="request-buy-form" method="POST" action="/request/send" style="display: none;">
+    <input type="hidden" name="buyerId" id="buyer-id-input">
+  </form>
+</body>
+
+</html>

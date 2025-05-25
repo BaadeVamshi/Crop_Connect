@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Signup - Farmer Portal</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: 'Segoe UI', sans-serif;
+    }
+    body {
+      background: linear-gradient(135deg, #f0f0f0, #dcdcdc);
+      margin: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      overflow: hidden;
+    }
+    .container {
+      background: #ffffff;
+      padding: 40px;
+      border-radius: 15px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+      animation: slideIn 1s ease-out;
+      width: 320px;
+      text-align: center;
+    }
+    h2 {
+      margin-bottom: 20px;
+      color: #333;
+    }
+    input {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      background-color: #f9f9f9;
+      transition: 0.3s;
+    }
+    input:focus {
+      border-color: #999;
+      outline: none;
+      background-color: #fff;
+    }
+    button {
+      width: 100%;
+      padding: 12px;
+      background: #8bc34a;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: background 0.3s ease;
+    }
+    button:hover {
+      background: #7cb342;
+    }
+    @keyframes slideIn {
+      from {
+        transform: translateY(30px);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <% if (error && error.length > 0) { %>
+        <div style="color: red; margin-bottom: 10px;">
+          <% error.forEach(err => { %>
+            <div><%= err %></div>
+          <% }) %>
+        </div>
+      <% } %>
+      
+    <h2>Buyer Signup</h2>
+    <form method="post" action="/users/signupbuyer">
+      <input type="text" placeholder="Full Name" name="name" required />
+      <input type="email" placeholder="Email" name="email" required />
+      <input type="text" placeholder="Username" name="username" required />
+      <input type="password" placeholder="Password" name="password" required />
+      <input type="password" placeholder="Enter Location of business" name="location" required />
+
+      <button type="submit">Signup</button>
+    </form>
+  </div>
+</body>
+</html>
