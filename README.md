@@ -74,7 +74,6 @@ cropconnect/
 ├── models/              # Mongoose models (Farmer, Buyer, Request)
 ├── public/              # Static files (images, stylesheets)
 │   └── images/
-├── routes/              # Express route handlers
 ├── utils/               # Middleware or helper functions
 ├── views/               # EJS templates
 │   └── partials/        # Header, footer, etc.
