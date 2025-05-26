@@ -30,7 +30,7 @@
 ## 🧑‍💻 Getting Started
 
 ### 1. **Clone the repo**:
-**git clone https://github.com/yourusername/cropconnect.git
+**git clone https://github.com/BaadeVamshi/Crop_Connect.git
 cd cropconnect
 
 ### **2. Install dependencies:**
