@@ -45,7 +45,7 @@ Paste the following in your .env file:
 
 env
 Copy
-DB_URL=your_mongo_db_connection_string
+ATLASDB_URL=your_mongo_db_connection_string
 MAP_TOKEN=your_mapbox_access_token
 SESSION_SECRET=your_secret_key
 
